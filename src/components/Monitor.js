@@ -407,7 +407,7 @@ const data2 = [{"load":"L1498897","owner":"TBA","route":"IN1000_EW-W","carrier":
                       {row.shipments.map((b, index) => (index ? ", " : "") + b)}
                     </StyledTableCell>
                     <StyledTableCell width="10%">
-                      {row.planned_delivery.substring(0, 10)}
+                      {row.planned_delivery}
                     </StyledTableCell>
                     <StyledTableCell width="10%">{row.eta}</StyledTableCell>
                     <StyledTableCell width="10%">{row.carrier}</StyledTableCell>
