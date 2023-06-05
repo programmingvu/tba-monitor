@@ -299,7 +299,7 @@ const data2 = [{"load":"L1498897","owner":"TBA","route":"IN1000_EW-W","carrier":
     },
   ];
   const [tableData, setTableData] = React.useState([]);
-
+  const todaysDate = new Date().toISOString().split('T')[0];
   useEffect(() => {
     getData();
   }, []);
@@ -394,7 +394,7 @@ const data2 = [{"load":"L1498897","owner":"TBA","route":"IN1000_EW-W","carrier":
         </TableHead>
         <TableBody>
           {tableData &&
-            tableData.map((row) => {
+            tableData.filter((load) => {if(load){ return todaysDate >= load.planned_delivery.slice(0,10)}} ).map((row) => {
               if (row) {
                 return (
                   <StyledTableRow key={row.load}>
