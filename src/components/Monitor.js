@@ -410,7 +410,8 @@ const data2 = [{"load":"L1498897","owner":"TBA","route":"IN1000_EW-W","carrier":
                               shipments != "TOYOTA BOSHOKU AMERICA, INC." &&
                               shipments != "PENSKE CROSSDOCK" && 
                               shipments != "TBA WOODSTOCK" &&
-                              shipments != "TBA ELMIRA"
+                              shipments != "TBA ELMIRA" &&
+                              shipments != "PENSKE CROSSDOCK C/O TBCA ELMIRA"
                             );
                           }).map((b, index) => (index ? ", " : "") + b)}
                     </StyledTableCell>
