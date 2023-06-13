@@ -45,7 +45,7 @@ export default function Monitor() {
   const getData = () => {
     try {
       axios
-        .get("https://engine.logikor.com/api/prod/tba.php")
+        .get("https://engine.logikor.com/api/prod/tba.php?location='TOYOWO','PENSCO03','PENSCO04','TOYOEO','PENSCO02'")
         .then((response) => {
           const loads = response.data;
           setTableData(loads);
@@ -404,7 +404,15 @@ const data2 = [{"load":"L1498897","owner":"TBA","route":"IN1000_EW-W","carrier":
                     <StyledTableCell width="10%">{row.route}</StyledTableCell>
                     <StyledTableCell width="10%">
                       {" "}
-                      {row.shipments.map((b, index) => (index ? ", " : "") + b)}
+                      {row.shipments.filter((shipments) => {
+                            return (
+                              shipments != "TOYOTA BOSHOKU CANADA" &&
+                              shipments != "TOYOTA BOSHOKU AMERICA, INC." &&
+                              shipments != "PENSKE CROSSDOCK" && 
+                              shipments != "TBA WOODSTOCK" &&
+                              shipments != "TBA ELMIRA"
+                            );
+                          }).map((b, index) => (index ? ", " : "") + b)}
                     </StyledTableCell>
                     <StyledTableCell width="10%">
                       {row.planned_delivery}
