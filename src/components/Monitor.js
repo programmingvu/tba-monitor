@@ -222,9 +222,24 @@ const handleSort = (property) => {
                 !load.route?.startsWith("MX")
             )
             .sort((a, b) => {
-              const dateA = new Date(a.planned_delivery || 0);
-              const dateB = new Date(b.planned_delivery || 0);
-              return dateA - dateB;
+              const aVal = a['planned_delivery'];
+              const bVal = b['planned_delivery'];
+
+              // Handle dates properly
+              if (orderBy === 'planned_delivery' || orderBy === 'eta') {
+                return (order === 'asc'
+                  ? new Date(aVal) - new Date(bVal)
+                  : new Date(bVal) - new Date(aVal));
+              }
+          
+              // Fallback string comparison
+              if (typeof aVal === 'string' && typeof bVal === 'string') {
+                return order === 'asc'
+                  ? aVal.localeCompare(bVal)
+                  : bVal.localeCompare(aVal);
+              }
+          
+              return 0;
             }).map((row) => {
               if (row) {
                 return (
