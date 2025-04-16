@@ -153,9 +153,9 @@ const closeDialog = () => {
             <MenuIcon />
             </Button> */}
   
-            <Link href="/">
+            {/* <Link href="/"> */}
             <img src={logo}  className={classes.resize}/>
-            </Link>
+            {/* </Link> */}
             <Typography className={classes.title}></Typography>
 
         </Toolbar>
