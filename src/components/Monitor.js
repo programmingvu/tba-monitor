@@ -22,13 +22,25 @@ const StyledTableCell = withStyles((theme) => ({
     textAlign: "center",
     '& .MuiTableSortLabel-root': {
       color: theme.palette.common.white,
+      cursor: 'pointer',
+      '&:hover': {
+        textDecoration: 'underline',
+        '& .MuiTableSortLabel-icon': {
+          opacity: 1,
+        },
+      },
     },
     '& .MuiTableSortLabel-root.Mui-active': {
       color: theme.palette.common.white,
+      '& .MuiTableSortLabel-icon': {
+        opacity: 1,
+      },
     },
     '& .MuiTableSortLabel-icon': {
       color: theme.palette.common.white,
-    }
+      opacity: 0.6, // visible but subtle
+      transition: 'opacity 0.3s ease',
+    },
   },
   body: {
     fontSize: 25,
@@ -57,6 +69,7 @@ export default function Monitor() {
         .get("https://engine.logikor.com/api/prod/tba.php?location='TOYOWO','PENSCO03','PENSCO04','TOYOEO','PENSCO02'")
         .then((response) => {
           const loads = response.data;
+          console.log(loads);
           setTableData(loads);
         });
     } catch (e) {
@@ -175,7 +188,15 @@ const handleSort = (property) => {
         Route
       </TableSortLabel>
     </StyledTableCell>
-
+    <StyledTableCell sortDirection={orderBy === 'location_name' ? order : false}>
+      <TableSortLabel
+        active={orderBy === 'location_name'}
+        direction={orderBy === 'location_name' ? order : 'asc'}
+        onClick={() => handleSort('location_name')}
+      >
+        Next Stop
+      </TableSortLabel>
+    </StyledTableCell>
     <StyledTableCell>
       Shipments
     </StyledTableCell>
@@ -209,7 +230,15 @@ const handleSort = (property) => {
         Carrier
       </TableSortLabel>
     </StyledTableCell>
-            <StyledTableCell width="10%">Status</StyledTableCell>
+    <StyledTableCell sortDirection={orderBy === 'status' ? order : false}>
+  <TableSortLabel
+    active={orderBy === 'status'}
+    direction={orderBy === 'status' ? order : 'asc'}
+    onClick={() => handleSort('status')}
+  >
+    Status
+  </TableSortLabel>
+</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -248,6 +277,7 @@ const handleSort = (property) => {
                       {row.load}
                     </StyledTableCell>
                     <StyledTableCell width="10%">{row.route}</StyledTableCell>
+                    <StyledTableCell width="10%">{row.location_name}</StyledTableCell>
                     <StyledTableCell width="10%">
                       {" "}
                       {row.shipments.filter((shipments) => {
