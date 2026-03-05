@@ -11,9 +11,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-setInterval(function() {
-  window.location.reload();
-}, 300000); 
+// setInterval(function() {
+//   window.location.reload();
+// }, 300000);
 
 function Home(){
   const [selectedLocation, setSelectedLocation] = React.useState('TBA');
