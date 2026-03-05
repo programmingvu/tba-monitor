@@ -16,10 +16,11 @@ setInterval(function() {
 }, 300000); 
 
 function Home(){
+  const [selectedLocation, setSelectedLocation] = React.useState('TBA');
   const themeDark = createMuiTheme({
     palette: {
       background: {
-        default: "#D3D3D3"
+        default: "#f0f2f5"
       }
     }
 
@@ -57,25 +58,22 @@ function Home(){
 
     const Item = styled(Paper)(({ theme }) => ({
       ...theme.typography.body2,
-      padding: theme.spacing(1),
+      padding: theme.spacing(2),
       textAlign: 'center',
       color: theme.palette.text.secondary,
+      borderRadius: 12,
+      boxShadow: 'none',
+      backgroundColor: 'transparent',
     }));
 
     return(
         <>
-        <NavBar />
+        <NavBar selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
         <MuiThemeProvider theme={themeDark}>
       <CssBaseline />
         
-        <Box marginTop={10}>
-      <Grid container spacing={10} justify = "center">
-           <Grid item>
-             <Item>
-        <Monitor />
-        </Item>
-        </Grid>
-        </Grid>
+        <Box style={{ padding: '16px 24px 0', height: 'calc(100vh - 64px)', display: 'flex', flexDirection: 'column' }}>
+          <Monitor selectedLocation={selectedLocation} />
         </Box>
         </MuiThemeProvider>
         

@@ -16,17 +16,24 @@ import red from "../static/media/TruckSideIcon-Red.svg";
 import { TableSortLabel } from '@material-ui/core';
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#bf2126',
     color: theme.palette.common.white,
-    fontSize: 30,
+    fontSize: 15,
+    fontWeight: 700,
     textAlign: "center",
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    padding: '14px 16px',
+    borderBottom: 'none',
+    whiteSpace: 'nowrap',
     '& .MuiTableSortLabel-root': {
       color: theme.palette.common.white,
       cursor: 'pointer',
       '&:hover': {
-        textDecoration: 'underline',
+        color: '#ffcdd2',
         '& .MuiTableSortLabel-icon': {
           opacity: 1,
+          color: '#ffcdd2',
         },
       },
     },
@@ -34,24 +41,35 @@ const StyledTableCell = withStyles((theme) => ({
       color: theme.palette.common.white,
       '& .MuiTableSortLabel-icon': {
         opacity: 1,
+        color: theme.palette.common.white,
       },
     },
     '& .MuiTableSortLabel-icon': {
-      color: theme.palette.common.white,
-      opacity: 0.6, // visible but subtle
-      transition: 'opacity 0.3s ease',
+      color: 'rgba(255,255,255,0.5)',
+      opacity: 0.6,
+      transition: 'opacity 0.3s ease, color 0.3s ease',
     },
   },
   body: {
-    fontSize: 25,
+    fontSize: 14,
     textAlign: "center",
+    padding: '12px 16px',
+    borderBottom: '1px solid #e8e8e8',
+    color: '#333',
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
+const StyledTableRow = withStyles(() => ({
   root: {
+    transition: 'background-color 0.2s ease',
     "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: '#fafafa',
+    },
+    "&:nth-of-type(even)": {
+      backgroundColor: '#ffffff',
+    },
+    "&:hover": {
+      backgroundColor: '#fff3f3',
     },
   },
 }))(TableRow);
@@ -59,14 +77,57 @@ const StyledTableRow = withStyles((theme) => ({
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
+    borderCollapse: 'separate',
+  },
+  container: {
+    flex: 1,
+    borderRadius: 12,
+    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+    border: '1px solid #e0e0e0',
+    overflow: 'auto',
+  },
+  statusIcon: {
+    width: 36,
+    height: 36,
+  },
+  shipmentChip: {
+    display: 'inline-block',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 4,
+    padding: '2px 8px',
+    margin: '2px 3px',
+    fontSize: 12,
+    color: '#555',
   },
 });
 
-export default function Monitor() {
+const LOCATION_MAP = {
+  'TOYOEO': ['TOYOEO', 'PENSCO02', 'PENSCO04'],
+  'TOYOWO': ['TOYOWO', 'PENSCO03', 'PENSCO04'],
+  'TBINPI': ['TBINPI'],
+  'TBILI': ['TBILI'],
+  'TBMSMM': ['TBMSMM'],
+  'TOYOAA': ['TOYOAA'],
+  'TBABBY': ['TBABBY'],
+  'TBMKLK': ['TBMKLK'],
+  'TOYOHK01': ['TOYOHK01'],
+  'TBWKHK': ['TBWKHK'],
+  'TBTNJT': ['TBTNJT'],
+  'TOYOEK': ['TOYOEK'],
+  'TOYONM': ['TOYONM'],
+};
+
+const ALL_LOCATIONS = [...new Set(Object.values(LOCATION_MAP).flat())];
+
+export default function Monitor({ selectedLocation }) {
   const getData = () => {
     try {
+      const locations = selectedLocation === 'TBA'
+        ? ALL_LOCATIONS
+        : (LOCATION_MAP[selectedLocation] || [selectedLocation]);
+      const locationParam = locations.map(l => `'${l}'`).join(',');
       axios
-        .get("https://engine.logikor.com/api/prod/tba.php?location='TOYOWO','PENSCO03','PENSCO04','TOYOEO','PENSCO02'")
+        .get(`https://engine.logikor.com/api/prod/tba.php?location=${locationParam}`)
         .then((response) => {
           const loads = response.data;
           console.log(loads);
@@ -89,17 +150,41 @@ const handleSort = (property) => {
 };
   useEffect(() => {
     getData();
-  }, []);
+  }, [selectedLocation]);
+
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTableData(([first, ...rest]) => [...rest, first]);
-    }, 3000); // Timer in MS?
+    const el = containerRef.current;
+    if (!el) return;
+
+    let paused = false;
+    let intervalId;
+
+    const startScroll = () => {
+      intervalId = setInterval(() => {
+        if (!paused && el.scrollHeight > el.clientHeight) {
+          el.scrollTop += 1;
+          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+            el.scrollTop = 0;
+          }
+        }
+      }, 50);
+    };
+
+    const handleMouseEnter = () => { paused = true; };
+    const handleMouseLeave = () => { paused = false; };
+
+    el.addEventListener('mouseenter', handleMouseEnter);
+    el.addEventListener('mouseleave', handleMouseLeave);
+    startScroll();
 
     return () => {
-      clearInterval(timer);
-    }; // Cleanup function
-  }, []);
+      clearInterval(intervalId);
+      el.removeEventListener('mouseenter', handleMouseEnter);
+      el.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [tableData]);
 
   const getColor = (value) => {
     if (!value) return "#f8dc75";
@@ -161,8 +246,38 @@ const handleSort = (property) => {
 
   const classes = useStyles();
 
+  const filteredData = tableData
+    ? [...tableData].filter(
+        load =>
+          load &&
+          todaysDate >= load.planned_delivery?.slice(0, 10) &&
+          !load.route?.startsWith("MX")
+      )
+    : [];
+
   return (
-    <TableContainer component={Paper} style={{ height: "75vh" }}>
+    <>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '12px 16px 8px' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+        <span style={{ fontSize: 22, color: '#1a1a1a', fontWeight: 700, letterSpacing: '-0.3px' }}>
+          {selectedLocation}
+        </span>
+        <span style={{ fontSize: 16, color: '#888', fontWeight: 400 }}>
+          Load Monitor
+        </span>
+      </div>
+      <span style={{
+        fontSize: 13,
+        color: '#fff',
+        fontWeight: 600,
+        backgroundColor: '#bf2126',
+        borderRadius: 12,
+        padding: '3px 12px',
+      }}>
+        {filteredData.length} load{filteredData.length !== 1 ? 's' : ''}
+      </span>
+    </div>
+    <TableContainer component={Paper} className={classes.container} ref={containerRef}>
       <Table
         className={classes.table}
         aria-label="customized table"
@@ -242,14 +357,7 @@ const handleSort = (property) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableData &&
-            [...tableData]
-            .filter(
-              load =>
-                load &&
-                todaysDate >= load.planned_delivery?.slice(0, 10) &&
-                !load.route?.startsWith("MX")
-            )
+          {filteredData
             .sort((a, b) => {
               const aVal = a['planned_delivery'];
               const bVal = b['planned_delivery'];
@@ -279,17 +387,18 @@ const handleSort = (property) => {
                     <StyledTableCell width="10%">{row.route}</StyledTableCell>
                     <StyledTableCell width="10%">{row.location_name}</StyledTableCell>
                     <StyledTableCell width="10%">
-                      {" "}
                       {row.shipments.filter((shipments) => {
                             return (
                               shipments != "TOYOTA BOSHOKU CANADA" &&
                               shipments != "TOYOTA BOSHOKU AMERICA, INC." &&
-                              shipments != "PENSKE CROSSDOCK" && 
+                              shipments != "PENSKE CROSSDOCK" &&
                               shipments != "TBA WOODSTOCK" &&
                               shipments != "TBA ELMIRA" &&
                               shipments != "PENSKE CROSSDOCK C/O TBCA ELMIRA"
                             );
-                          }).map((b, index) => (index ? ", " : "") + b)}
+                          }).map((b, index) => (
+                            <span key={index} className={classes.shipmentChip}>{b}</span>
+                          ))}
                     </StyledTableCell>
                     <StyledTableCell width="10%">
                       {row.planned_delivery}
@@ -297,7 +406,7 @@ const handleSort = (property) => {
                     <StyledTableCell width="10%">{row.eta}</StyledTableCell>
                     <StyledTableCell width="10%">{row.carrier}</StyledTableCell>
                     <StyledTableCell width="10%">
-                      <img src={getStatus(row.status)}></img>
+                      <img src={getStatus(row.status)} className={classes.statusIcon} alt={row.status}></img>
                     </StyledTableCell>
                   </StyledTableRow>
                 );
@@ -306,5 +415,6 @@ const handleSort = (property) => {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }

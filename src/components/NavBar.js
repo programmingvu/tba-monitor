@@ -92,7 +92,24 @@ const theme = createMuiTheme({
       },
 });
 
-export default function NavBar() {
+const locationOptions = [
+  { label: 'TBA', value: 'TBA' },
+  { label: 'TOYOEO', value: 'TOYOEO' },
+  { label: 'TOYOWO', value: 'TOYOWO' },
+  { label: 'TBINPI', value: 'TBINPI' },
+  { label: 'TBILI', value: 'TBILI' },
+  { label: 'TBMSMM', value: 'TBMSMM' },
+  { label: 'TOYOAA', value: 'TOYOAA' },
+  { label: 'TBABBY', value: 'TBABBY' },
+  { label: 'TBMKLK', value: 'TBMKLK' },
+  { label: 'TOYOHK01', value: 'TOYOHK01' },
+  { label: 'TBWKHK', value: 'TBWKHK' },
+  { label: 'TBTNJT', value: 'TBTNJT' },
+  { label: 'TOYOEK', value: 'TOYOEK' },
+  { label: 'TOYONM', value: 'TOYONM' },
+];
+
+export default function NavBar({ selectedLocation, setSelectedLocation }) {
 
   const classes = useStyles();
 //   const [selectedItem, setSelectedItem] = React.useState("");
@@ -157,6 +174,31 @@ const closeDialog = () => {
             <img src={logo}  className={classes.resize}/>
             {/* </Link> */}
             <Typography className={classes.title}></Typography>
+
+            <Select
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              disableUnderline
+              style={{
+                color: 'white',
+                minWidth: 160,
+                fontSize: 14,
+                fontWeight: 600,
+                backgroundColor: 'rgba(255,255,255,0.15)',
+                borderRadius: 6,
+                padding: '4px 12px',
+              }}
+              inputProps={{ style: { color: 'white' } }}
+              MenuProps={{
+                PaperProps: {
+                  style: { borderRadius: 8, marginTop: 4 },
+                },
+              }}
+            >
+              {locationOptions.map((opt) => (
+                <MenuItem key={opt.value} value={opt.value} style={{ fontSize: 14 }}>{opt.label}</MenuItem>
+              ))}
+            </Select>
 
         </Toolbar>
       </AppBar>
