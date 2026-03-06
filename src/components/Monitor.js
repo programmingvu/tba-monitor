@@ -62,15 +62,6 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles(() => ({
   root: {
     transition: 'background-color 0.2s ease',
-    "&:nth-of-type(odd)": {
-      backgroundColor: '#fafafa',
-    },
-    "&:nth-of-type(even)": {
-      backgroundColor: '#ffffff',
-    },
-    "&:hover": {
-      backgroundColor: '#fff3f3',
-    },
   },
 }))(TableRow);
 
@@ -82,9 +73,10 @@ const useStyles = makeStyles({
   container: {
     flex: 1,
     borderRadius: 12,
-    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-    border: '1px solid #e0e0e0',
+    boxShadow: ({ darkMode }) => darkMode ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
+    border: ({ darkMode }) => darkMode ? '1px solid #2a2a3e' : '1px solid #e0e0e0',
     overflow: 'auto',
+    backgroundColor: ({ darkMode }) => darkMode ? '#16213e' : undefined,
   },
   statusIcon: {
     width: 36,
@@ -92,12 +84,12 @@ const useStyles = makeStyles({
   },
   shipmentChip: {
     display: 'inline-block',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: ({ darkMode }) => darkMode ? '#2a2a3e' : '#f0f0f0',
     borderRadius: 4,
     padding: '2px 8px',
     margin: '2px 3px',
     fontSize: 12,
-    color: '#555',
+    color: ({ darkMode }) => darkMode ? '#ccc' : '#555',
   },
   // Mobile card styles
   cardList: {
@@ -106,10 +98,10 @@ const useStyles = makeStyles({
     padding: '0 8px 8px',
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: ({ darkMode }) => darkMode ? '#16213e' : '#fff',
     borderRadius: 12,
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-    border: '1px solid #e8e8e8',
+    boxShadow: ({ darkMode }) => darkMode ? '0 2px 8px rgba(0,0,0,0.3)' : '0 2px 8px rgba(0,0,0,0.08)',
+    border: ({ darkMode }) => darkMode ? '1px solid #2a2a3e' : '1px solid #e8e8e8',
     marginBottom: 10,
     padding: '14px 16px',
     position: 'relative',
@@ -123,13 +115,13 @@ const useStyles = makeStyles({
   cardLoad: {
     fontSize: 16,
     fontWeight: 700,
-    color: '#1a1a1a',
+    color: ({ darkMode }) => darkMode ? '#e0e0e0' : '#1a1a1a',
   },
   cardRoute: {
     fontSize: 13,
     fontWeight: 600,
     color: '#bf2126',
-    backgroundColor: '#fef2f2',
+    backgroundColor: ({ darkMode }) => darkMode ? '#2a1a1e' : '#fef2f2',
     borderRadius: 6,
     padding: '2px 8px',
   },
@@ -145,29 +137,29 @@ const useStyles = makeStyles({
   cardLabel: {
     fontSize: 11,
     fontWeight: 600,
-    color: '#999',
+    color: ({ darkMode }) => darkMode ? '#777' : '#999',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
   },
   cardValue: {
     fontSize: 13,
-    color: '#333',
+    color: ({ darkMode }) => darkMode ? '#ccc' : '#333',
     fontWeight: 500,
     textAlign: 'right',
   },
   cardDivider: {
     height: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: ({ darkMode }) => darkMode ? '#2a2a3e' : '#f0f0f0',
     margin: '6px 0',
   },
   cardShipmentChip: {
     display: 'inline-block',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: ({ darkMode }) => darkMode ? '#2a2a3e' : '#f5f5f5',
     borderRadius: 4,
     padding: '2px 6px',
     margin: '2px 3px',
     fontSize: 11,
-    color: '#555',
+    color: ({ darkMode }) => darkMode ? '#ccc' : '#555',
   },
 });
 
@@ -189,7 +181,7 @@ const LOCATION_MAP = {
 
 const ALL_LOCATIONS = [...new Set(Object.values(LOCATION_MAP).flat())];
 
-export default function Monitor({ selectedLocation }) {
+export default function Monitor({ selectedLocation, darkMode }) {
   const getData = () => {
     try {
       const locations = selectedLocation === 'TBA'
@@ -314,7 +306,7 @@ const handleSort = (property) => {
   //   }
   // };
 
-  const classes = useStyles();
+  const classes = useStyles({ darkMode });
   const isMobile = useMediaQuery('(max-width:768px)');
 
   const filteredData = tableData
@@ -356,10 +348,10 @@ const handleSort = (property) => {
     <>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '12px 16px 8px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-        <span style={{ fontSize: isMobile ? 18 : 22, color: '#1a1a1a', fontWeight: 700, letterSpacing: '-0.3px' }}>
+        <span style={{ fontSize: isMobile ? 18 : 22, color: darkMode ? '#e0e0e0' : '#1a1a1a', fontWeight: 700, letterSpacing: '-0.3px' }}>
           {selectedLocation}
         </span>
-        <span style={{ fontSize: isMobile ? 13 : 16, color: '#888', fontWeight: 400 }}>
+        <span style={{ fontSize: isMobile ? 13 : 16, color: darkMode ? '#888' : '#888', fontWeight: 400 }}>
           Load Monitor
         </span>
       </div>
@@ -423,7 +415,7 @@ const handleSort = (property) => {
         })}
       </div>
     ) : (
-      <TableContainer component={Paper} className={classes.container} ref={containerRef}>
+      <TableContainer component={Paper} className={classes.container} ref={containerRef} style={darkMode ? { backgroundColor: '#16213e' } : {}}>
         <Table
           className={classes.table}
           aria-label="customized table"
@@ -503,26 +495,32 @@ const handleSort = (property) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData.map((row) => {
+            {sortedData.map((row, idx) => {
                 if (row) {
+                  const rowBg = darkMode
+                    ? (idx % 2 === 0 ? '#1a1a2e' : '#16213e')
+                    : (idx % 2 === 0 ? '#fafafa' : '#ffffff');
+                  const rowHover = darkMode ? '#1f2a47' : '#fff3f3';
+                  const cellColor = darkMode ? '#ccc' : '#333';
+                  const cellBorder = darkMode ? '1px solid #2a2a3e' : '1px solid #e8e8e8';
                   return (
-                    <StyledTableRow key={row.load}>
-                      <StyledTableCell component="th" scope="row" width="10%">
+                    <StyledTableRow key={row.load} style={{ backgroundColor: rowBg }}>
+                      <StyledTableCell component="th" scope="row" width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>
                         {row.load}
                       </StyledTableCell>
-                      <StyledTableCell width="10%">{row.route}</StyledTableCell>
-                      <StyledTableCell width="10%">{row.location_name}</StyledTableCell>
-                      <StyledTableCell width="10%">
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.route}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.location_name}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ borderBottom: cellBorder }}>
                         {filterShipments(row.shipments).map((b, index) => (
                               <span key={index} className={classes.shipmentChip}>{b}</span>
                             ))}
                       </StyledTableCell>
-                      <StyledTableCell width="10%">
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>
                         {row.planned_delivery}
                       </StyledTableCell>
-                      <StyledTableCell width="10%">{row.eta}</StyledTableCell>
-                      <StyledTableCell width="10%">{row.carrier}</StyledTableCell>
-                      <StyledTableCell width="10%">
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.eta}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.carrier}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ borderBottom: cellBorder }}>
                         <img src={getStatus(row.status)} className={classes.statusIcon} alt={row.status}></img>
                       </StyledTableCell>
                     </StyledTableRow>

@@ -13,7 +13,9 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
 import Link from '@material-ui/core/Link';
-import { Icon } from "@material-ui/core";
+import { Icon, IconButton as MuiIconButton } from "@material-ui/core";
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
@@ -109,7 +111,7 @@ const locationOptions = [
   { label: 'TOYONM', value: 'TOYONM' },
 ];
 
-export default function NavBar({ selectedLocation, setSelectedLocation }) {
+export default function NavBar({ selectedLocation, setSelectedLocation, darkMode, setDarkMode }) {
 
   const classes = useStyles();
 //   const [selectedItem, setSelectedItem] = React.useState("");
@@ -199,6 +201,13 @@ const closeDialog = () => {
                 <MenuItem key={opt.value} value={opt.value} style={{ fontSize: 14 }}>{opt.label}</MenuItem>
               ))}
             </Select>
+
+            <MuiIconButton
+              onClick={() => setDarkMode(!darkMode)}
+              style={{ color: 'white', marginLeft: 8 }}
+            >
+              {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+            </MuiIconButton>
 
         </Toolbar>
       </AppBar>

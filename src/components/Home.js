@@ -17,10 +17,11 @@ import Typography from '@material-ui/core/Typography';
 
 function Home(){
   const [selectedLocation, setSelectedLocation] = React.useState('TBA');
+  const [darkMode, setDarkMode] = React.useState(false);
   const themeDark = createMuiTheme({
     palette: {
       background: {
-        default: "#f0f2f5"
+        default: darkMode ? "#1a1a2e" : "#f0f2f5"
       }
     }
 
@@ -68,12 +69,12 @@ function Home(){
 
     return(
         <>
-        <NavBar selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} />
+        <NavBar selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} darkMode={darkMode} setDarkMode={setDarkMode} />
         <MuiThemeProvider theme={themeDark}>
       <CssBaseline />
         
         <Box style={{ padding: '16px 24px 0', height: 'calc(100vh - 64px)', display: 'flex', flexDirection: 'column' }}>
-          <Monitor selectedLocation={selectedLocation} />
+          <Monitor selectedLocation={selectedLocation} darkMode={darkMode} />
         </Box>
         </MuiThemeProvider>
         
