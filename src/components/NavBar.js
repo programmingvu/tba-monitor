@@ -96,19 +96,19 @@ const theme = createMuiTheme({
 
 const locationOptions = [
   { label: 'TBA', value: 'TBA' },
-  { label: 'TBCA-E', value: 'TOYOEO' },
-  { label: 'TBCA-W', value: 'TOYOWO' },
-  { label: 'TBIN', value: 'TBINPI' },
-  { label: 'TBIL', value: 'TBILI' },
-  { label: 'TBMS', value: 'TBMSMM' },
-  { label: 'TOYOKI', value: 'TOYOAA' },
-  { label: 'TBKY-B', value: 'TBABBY' },
-  { label: 'TBKY-L', value: 'TBMKLK' },
-  { label: 'TBKY-H', value: 'TOYOHK01' },
-  { label: 'TBWK', value: 'TBWKHK' },
-  { label: 'TBJT', value: 'TBTNJT' },
-  { label: 'Head Office', value: 'TOYOEK' },
-  { label: 'R&D', value: 'TOYONM' },
+  { label: 'TBCA-E', value: 'TBCA-E' },
+  { label: 'TBCA-W', value: 'TBCA-W' },
+  { label: 'TBIN', value: 'TBIN' },
+  { label: 'TBIL', value: 'TBIL' },
+  { label: 'TBMS', value: 'TBMS' },
+  { label: 'TOYOKI', value: 'TOYOKI' },
+  { label: 'TBKY-B', value: 'TBKY-B' },
+  { label: 'TBKY-L', value: 'TBKY-L' },
+  { label: 'TBKY-H', value: 'TBKY-H' },
+  { label: 'TBWK', value: 'TBWK' },
+  { label: 'TBJT', value: 'TBJT' },
+  { label: 'Head Office', value: 'Head Office' },
+  { label: 'R&D', value: 'R&D' },
 ];
 
 
