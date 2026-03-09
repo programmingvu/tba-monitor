@@ -96,20 +96,21 @@ const theme = createMuiTheme({
 
 const locationOptions = [
   { label: 'TBA', value: 'TBA' },
-  { label: 'TOYOEO', value: 'TOYOEO' },
-  { label: 'TOYOWO', value: 'TOYOWO' },
-  { label: 'TBINPI', value: 'TBINPI' },
-  { label: 'TBILI', value: 'TBILI' },
-  { label: 'TBMSMM', value: 'TBMSMM' },
-  { label: 'TOYOAA', value: 'TOYOAA' },
-  { label: 'TBABBY', value: 'TBABBY' },
-  { label: 'TBMKLK', value: 'TBMKLK' },
-  { label: 'TOYOHK01', value: 'TOYOHK01' },
-  { label: 'TBWKHK', value: 'TBWKHK' },
-  { label: 'TBTNJT', value: 'TBTNJT' },
-  { label: 'TOYOEK', value: 'TOYOEK' },
-  { label: 'TOYONM', value: 'TOYONM' },
+  { label: 'TBCA-E', value: 'TOYOEO' },
+  { label: 'TBCA-W', value: 'TOYOWO' },
+  { label: 'TBIN', value: 'TBINPI' },
+  { label: 'TBIL', value: 'TBILI' },
+  { label: 'TBMS', value: 'TBMSMM' },
+  { label: 'TOYOKI', value: 'TOYOAA' },
+  { label: 'TBKY-B', value: 'TBABBY' },
+  { label: 'TBKY-L', value: 'TBMKLK' },
+  { label: 'TBKY-H', value: 'TOYOHK01' },
+  { label: 'TBWK', value: 'TBWKHK' },
+  { label: 'TBJT', value: 'TBTNJT' },
+  { label: 'Head Office', value: 'TOYOEK' },
+  { label: 'R&D', value: 'TOYONM' },
 ];
+
 
 export default function NavBar({ selectedLocation, setSelectedLocation, darkMode, setDarkMode }) {
 
