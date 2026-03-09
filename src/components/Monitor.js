@@ -164,19 +164,19 @@ const useStyles = makeStyles({
 });
 
 const LOCATION_MAP = {
-  'TOYOEO': ['TOYOEO', 'PENSCO02', 'PENSCO04'],
-  'TOYOWO': ['TOYOWO', 'PENSCO03', 'PENSCO04'],
-  'TBINPI': ['TBINPI'],
-  'TBILI': ['TBILI'],
-  'TBMSMM': ['TBMSMM'],
-  'TOYOAA': ['TOYOAA'],
-  'TBABBY': ['TBABBY'],
-  'TBMKLK': ['TBMKLK'],
-  'TOYOHK01': ['TOYOHK01'],
-  'TBWKHK': ['TBWKHK'],
-  'TBTNJT': ['TBTNJT'],
-  'TOYOEK': ['TOYOEK'],
-  'TOYONM': ['TOYONM'],
+  'TBCA-E': ['TOYOEO', 'PENSCO02'],
+  'TBCA-W': ['TOYOWO'],
+  'TBIN': ['TBINPI'],
+  'TBIL': ['TBILI'],
+  'TBMS': ['TBMSMM'],
+  'TOYOKI': ['TOYOAA'],
+  'TBKY-B': ['TBABBY'],
+  'TBKY-L': ['TBMKLK'],
+  'TBKY-H': ['TOYOHK01'],
+  'TBWK': ['TBWKHK'],
+  'TBJT': ['TBDNJT', 'TBDNJT01'],
+  'Head Office': ['TOYOEK'],
+  'R&D': ['TOYONM'],
 };
 
 const ALL_LOCATIONS = [...new Set(Object.values(LOCATION_MAP).flat())];
