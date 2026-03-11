@@ -101,7 +101,7 @@ const locationOptions = [
   { label: 'TBIN', value: 'TBIN' },
   { label: 'TBIL', value: 'TBIL' },
   { label: 'TBMS', value: 'TBMS' },
-  { label: 'TOYOKI', value: 'TOYOKI' },
+  { label: 'TBAKI', value: 'TBAKI' },
   { label: 'TBKY-B', value: 'TBKY-B' },
   { label: 'TBKY-L', value: 'TBKY-L' },
   { label: 'TBKY-H', value: 'TBKY-H' },

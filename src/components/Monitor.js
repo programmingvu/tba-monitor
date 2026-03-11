@@ -169,7 +169,7 @@ const LOCATION_MAP = {
   'TBIN': ['TBINPI'],
   'TBIL': ['TBILI'],
   'TBMS': ['TBMSMM'],
-  'TOYOKI': ['TOYOAA'],
+  'TBAKI': ['TOYOAA'],
   'TBKY-B': ['TBABBY'],
   'TBKY-L': ['TBMKLK'],
   'TBKY-H': ['TOYOHK01'],
