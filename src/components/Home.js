@@ -15,8 +15,13 @@ import Typography from '@material-ui/core/Typography';
 //   window.location.reload();
 // }, 300000);
 
+const VALID_PLANTS = ['TBA','TBCA-E','TBCA-W','TBIN','TBIL','TBMS','TBAKI','TBKY-B','TBKY-L','TBKY-H','TBWK','TBJT','Head Office','R&D'];
+
 function Home(){
-  const [selectedLocation, setSelectedLocation] = React.useState('TBA');
+  const params = new URLSearchParams(window.location.search);
+  const plantParam = params.get('plant');
+  const initialLocation = plantParam && VALID_PLANTS.includes(plantParam) ? plantParam : 'TBA';
+  const [selectedLocation, setSelectedLocation] = React.useState(initialLocation);
   const [darkMode, setDarkMode] = React.useState(false);
   const themeDark = createMuiTheme({
     palette: {
