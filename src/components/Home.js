@@ -20,7 +20,9 @@ const VALID_PLANTS = ['TBA','TBCA-E','TBCA-W','TBIN','TBIL','TBMS','TBAKI','TBKY
 function Home(){
   const params = new URLSearchParams(window.location.search);
   const plantParam = params.get('plant');
-  const initialLocation = plantParam && VALID_PLANTS.includes(plantParam) ? plantParam : 'TBA';
+  const initialLocation = plantParam
+    ? VALID_PLANTS.find(p => p.toLowerCase() === plantParam.toLowerCase()) || 'TBA'
+    : 'TBA';
   const [selectedLocation, setSelectedLocation] = React.useState(initialLocation);
   const [darkMode, setDarkMode] = React.useState(false);
   const themeDark = createMuiTheme({
