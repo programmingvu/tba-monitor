@@ -520,9 +520,9 @@ const handleSort = (property) => {
                             ))}
                       </StyledTableCell>
                       <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>
-                        {row.planned_delivery}
+                        {row.planned_delivery || '—'}
                       </StyledTableCell>
-                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.eta}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.eta || '—'}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.carrier}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ borderBottom: cellBorder }}>
                         <img src={getStatus(row.status)} className={classes.statusIcon} alt={row.status}></img>
