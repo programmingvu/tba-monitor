@@ -386,6 +386,10 @@ const handleSort = (property) => {
               </div>
               <div className={classes.cardDivider} />
               <div className={classes.cardRow}>
+                <span className={classes.cardLabel}>Trailer</span>
+                <span className={classes.cardValue}>{row.trailer || '—'}</span>
+              </div>
+              <div className={classes.cardRow}>
                 <span className={classes.cardLabel}>Carrier</span>
                 <span className={classes.cardValue}>{row.carrier || '—'}</span>
               </div>
@@ -443,6 +447,15 @@ const handleSort = (property) => {
           onClick={() => handleSort('route')}
         >
           Route
+        </TableSortLabel>
+      </StyledTableCell>
+      <StyledTableCell sortDirection={orderBy === 'trailer' ? order : false}>
+        <TableSortLabel
+          active={orderBy === 'trailer'}
+          direction={orderBy === 'trailer' ? order : 'asc'}
+          onClick={() => handleSort('trailer')}
+        >
+          Trailer
         </TableSortLabel>
       </StyledTableCell>
       <StyledTableCell sortDirection={orderBy === 'location_name' ? order : false}>
@@ -513,6 +526,7 @@ const handleSort = (property) => {
                         {row.load}
                       </StyledTableCell>
                       <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.route}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.trailer}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.location_name}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ borderBottom: cellBorder }}>
                         {filterShipments(row.shipments).map((b, index) => (
