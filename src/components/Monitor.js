@@ -201,7 +201,6 @@ export default function Monitor({ selectedLocation, darkMode }) {
   };
 
   const [tableData, setTableData] = React.useState([]);
-  const todaysDate = new Date().toISOString().split('T')[0];
   const [order, setOrder] = React.useState('asc');
 const [orderBy, setOrderBy] = React.useState('');
 
@@ -315,10 +314,7 @@ const handleSort = (property) => {
 
   const filteredData = tableData
     ? [...tableData].filter(
-        load =>
-          load &&
-          todaysDate >= load.planned_delivery?.slice(0, 10) &&
-          !load.route?.startsWith("MX")
+        load => load && load.planned_delivery && !load.route?.startsWith("MX")
       )
     : [];
 
