@@ -382,12 +382,16 @@ const handleSort = (property) => {
               </div>
               <div className={classes.cardDivider} />
               <div className={classes.cardRow}>
+                <span className={classes.cardLabel}>Carrier</span>
+                <span className={classes.cardValue}>{row.carrier || '—'}</span>
+              </div>
+              <div className={classes.cardRow}>
                 <span className={classes.cardLabel}>Trailer</span>
                 <span className={classes.cardValue}>{row.trailer || '—'}</span>
               </div>
               <div className={classes.cardRow}>
-                <span className={classes.cardLabel}>Carrier</span>
-                <span className={classes.cardValue}>{row.carrier || '—'}</span>
+                <span className={classes.cardLabel}>Next Stop ETA</span>
+                <span className={classes.cardValue}>{row.eta || '—'}</span>
               </div>
               <div className={classes.cardRow}>
                 <span className={classes.cardLabel}>Next Stop</span>
@@ -396,10 +400,6 @@ const handleSort = (property) => {
               <div className={classes.cardRow}>
                 <span className={classes.cardLabel}>Planned Delivery</span>
                 <span className={classes.cardValue}>{row.planned_delivery || '—'}</span>
-              </div>
-              <div className={classes.cardRow}>
-                <span className={classes.cardLabel}>ETA</span>
-                <span className={classes.cardValue}>{row.eta || '—'}</span>
               </div>
               {filterShipments(row.shipments).length > 0 && (
                 <>
@@ -445,6 +445,18 @@ const handleSort = (property) => {
           Route
         </TableSortLabel>
       </StyledTableCell>
+      <StyledTableCell>
+        Shipments
+      </StyledTableCell>
+      <StyledTableCell sortDirection={orderBy === 'carrier' ? order : false}>
+        <TableSortLabel
+          active={orderBy === 'carrier'}
+          direction={orderBy === 'carrier' ? order : 'asc'}
+          onClick={() => handleSort('carrier')}
+        >
+          Carrier
+        </TableSortLabel>
+      </StyledTableCell>
       <StyledTableCell sortDirection={orderBy === 'trailer' ? order : false}>
         <TableSortLabel
           active={orderBy === 'trailer'}
@@ -454,6 +466,17 @@ const handleSort = (property) => {
           Trailer
         </TableSortLabel>
       </StyledTableCell>
+
+      <StyledTableCell sortDirection={orderBy === 'eta' ? order : false}>
+        <TableSortLabel
+          active={orderBy === 'eta'}
+          direction={orderBy === 'eta' ? order : 'asc'}
+          onClick={() => handleSort('eta')}
+        >
+          Next Stop ETA
+        </TableSortLabel>
+      </StyledTableCell>
+
       <StyledTableCell sortDirection={orderBy === 'location_name' ? order : false}>
         <TableSortLabel
           active={orderBy === 'location_name'}
@@ -463,9 +486,6 @@ const handleSort = (property) => {
           Next Stop
         </TableSortLabel>
       </StyledTableCell>
-      <StyledTableCell>
-        Shipments
-      </StyledTableCell>
 
       <StyledTableCell sortDirection={orderBy === 'planned_delivery' ? order : false}>
         <TableSortLabel
@@ -474,26 +494,6 @@ const handleSort = (property) => {
           onClick={() => handleSort('planned_delivery')}
         >
           Planned Delivery
-        </TableSortLabel>
-      </StyledTableCell>
-
-      <StyledTableCell sortDirection={orderBy === 'eta' ? order : false}>
-        <TableSortLabel
-          active={orderBy === 'eta'}
-          direction={orderBy === 'eta' ? order : 'asc'}
-          onClick={() => handleSort('eta')}
-        >
-          ETA
-        </TableSortLabel>
-      </StyledTableCell>
-
-      <StyledTableCell sortDirection={orderBy === 'carrier' ? order : false}>
-        <TableSortLabel
-          active={orderBy === 'carrier'}
-          direction={orderBy === 'carrier' ? order : 'asc'}
-          onClick={() => handleSort('carrier')}
-        >
-          Carrier
         </TableSortLabel>
       </StyledTableCell>
       <StyledTableCell sortDirection={orderBy === 'status' ? order : false}>
@@ -522,18 +522,18 @@ const handleSort = (property) => {
                         {row.load}
                       </StyledTableCell>
                       <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.route}</StyledTableCell>
-                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.trailer}</StyledTableCell>
-                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.location_name}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ borderBottom: cellBorder }}>
                         {filterShipments(row.shipments).map((b, index) => (
                               <span key={index} className={classes.shipmentChip}>{b}</span>
                             ))}
                       </StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.carrier}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.trailer}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.eta || '—'}</StyledTableCell>
+                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.location_name}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>
                         {row.planned_delivery || '—'}
                       </StyledTableCell>
-                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.eta || '—'}</StyledTableCell>
-                      <StyledTableCell width="10%" style={{ color: cellColor, borderBottom: cellBorder }}>{row.carrier}</StyledTableCell>
                       <StyledTableCell width="10%" style={{ borderBottom: cellBorder }}>
                         <img src={getStatus(row.status)} className={classes.statusIcon} alt={row.status}></img>
                       </StyledTableCell>
